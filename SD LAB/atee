@@ -1,0 +1,11 @@
+In this chapter, we will discuss in detail about FILE management in UNIX. All data in UNIX is organized into FILEs. All FILEs are organized into directories. These directories are organized into a tree-like structure called the FILEsystem.
+
+When you work with UNIX, ONE way or another, you spend most of your time working with FILEs. This tutorial will help you understand how to create and remove FILEs, copy and rename them, create links to them, etc.
+
+In UNIX, there are three basic types of FILEs −
+
+    Ordinary Files − An ordinary FILE is a FILE on the system that contains data, text, or program instructions. In this tutorial, you look at working with ordinary FILEs.
+
+    Directories − Directories store both special and ordinary FILEs. For users familiar with Windows or Mac OS, UNIX directories are equivalent to folders.
+
+    Special Files − Some special FILEs provide access to hardware such as hard drives, CD-ROM drives, modems, and Ethernet adapters. Other special FILEs are similar to aliases or sh
