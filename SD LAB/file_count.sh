@@ -27,19 +27,23 @@ while read p; do
 		char_SP_c=$((char_SP_c+1))
 	  fi
 
-	
+	if [[ "${p:$i:1}" = " " ]]
+	  then
+		if [[ "${p:$i+1:1}" != " " ]]
+		  then
+			word_cont=$((word_cont+1))
+		  fi
+	  fi
 	   char_c=$((char_c+1))
   done
-
-while IFS=';' read -ra ADDR; do
-	      for i in "${ADDR[@]}"; do
-		  word_cont=$((word_cont+1))
-			echo $word_cont
-	      done
-	 done <<< "${p:$i:1}"
+	if [[ ${#p} != 0 ]]
+	 then
+	    word_cont=$((word_cont+1))
+	fi
 
  line_c=$((line_c+1))
 done <t
+
 echo "line count $line_c"
 echo "char Small count $char_S_c"
 echo "char Capital count $char_C_c"
