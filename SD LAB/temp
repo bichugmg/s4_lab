@@ -9,3 +9,14 @@ In UNIX, there are three basic types of files −
     Directories − Directories store both special and ordinary files. For users familiar with Windows or Mac OS, UNIX directories are equivalent to folders.
 
     Special Files − Some special files provide access to hardware such as hard drives, CD-ROM drives, modems, and Ethernet adapters. Other special files are similar to aliases or sh
+
+
+
+
+
+
+
+
+
+
+awk -F "," '{print $1 ";" $4+$5}' student_mark.csv

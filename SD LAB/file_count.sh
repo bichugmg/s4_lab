@@ -6,6 +6,7 @@ char_SP_c=0
 alpha_c=0
 word_cont=0
 while read p; do
+
   for (( i=0; i<${#p}; i++ )); do
 	  if [[ "${p:$i:1}" = [a-z] ]]
 	  then
