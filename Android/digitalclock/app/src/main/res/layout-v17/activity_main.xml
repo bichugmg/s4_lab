@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextClock
+        android:id="@+id/textClock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:format12Hour="H:mm:ss"
+        android:textColor="#0000FF"
+        android:textSize="35sp"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="0dp" />
+    />
+    <Button
+        android:id="@+id/tts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Speak"/>
+<TimePicker
+    android:id="@+id/timepicker"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"></TimePicker>
+<ToggleButton
+    android:id="@+id/toggle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+</LinearLayout>
