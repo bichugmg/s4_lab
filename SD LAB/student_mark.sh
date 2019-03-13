@@ -1,8 +1,13 @@
-#awk -F ","  'total=$4+$5+$6+$7+$8+$9 , mean=total/7 { print $1 "," $2 "," $3 "," $4 "," $5 "," $6 "," $7 "," $8 "," $9 "," $10 "," total "," mean }' student_mark.csv
+awk -F ","  'total=$4+$5+$6+$7+$8+$9 , mean=total/7 { print $1 "," $2 "," $3 "," $4 "," $5 "," $6 "," $7 "," $8 "," $9 "," $10 "," total "," mean }' student_mark.csv > t.csv
 
 mean=0
 gtotal=0
-
+a=0
+b=0
+c=0
+d=0
+e=0
+f=0
 
 #to find total
 while IFS="," read -r roll admno roll sub1 sub2 sub3 sub4 sub5 sub6 sub7 total mean; do 
@@ -12,7 +17,7 @@ gtotal=$((gtotal+$total))
 done < t.csv 
 suma=0
 
-meana=$((gtotal/2))
+meana=$((gtotal/28))
 
 #to find Standard diviation
 while IFS="," read -r roll admno roll sub1 sub2 sub3 sub4 sub5 sub6 sub7 total mean; do 
@@ -20,13 +25,12 @@ while IFS="," read -r roll admno roll sub1 sub2 sub3 sub4 sub5 sub6 sub7 total m
 suma=$((suma+($total-meana)*($total-meana)))
 	
 done < t.csv 
-var=$((suma/2))
+var=$((suma/28))
 sd=$(bc <<< "scale=2; sqrt($var)")
 
-echo $sd 
-echo $var 
 echo $meana
-echo $gtotal
+echo $sd
+
 
 
 #to find grade
@@ -40,25 +44,52 @@ ge=$(bc <<< "scale=2; $meana-2*$sd")
 
 if [[ ${total%%.*} -gt ${ga%%.*} ]]
 then
-echo "A"
-elif [[ ${total%%.*} -gt ${gb%%.*} || ${total%%.*} -lt ${ga%%.*} ]]
+a=$((a+1))
+
+elif [[ ${total%%.*} -gt ${gb%%.*} && ${total%%.*} -lt ${ga%%.*} ]]
 then
-echo "B"
-elif [[ ${total%%.*} -gt ${gc%%.*} || ${total%%.*} -lt ${gb%%.*} ]]
+b=$((b+1))
+
+elif [[ ${total%%.*} -gt ${gc%%.*} && ${total%%.*} -lt ${gb%%.*} ]]
 then
-echo "C"
-elif [[ ${total%%.*} -gt ${gd%%.*} || ${total%%.*} -lt ${gc%%.*} ]]
+c=$((c+1))
+
+elif [[ ${total%%.*} -gt ${gd%%.*} && ${total%%.*} -lt ${gc%%.*} ]]
 then
-echo "D"
-elif [[ ${total%%.*} -gt ${ge%%.*} || ${total%%.*} -lt ${gd%%.*} ]]
+d=$((d+1))
+
+elif [[ ${total%%.*} -gt ${ge%%.*} && ${total%%.*} -lt ${gd%%.*} ]]
 then
-echo "E"
+e=$((e+1))
+
 elif [[ ${total%%.*} -lt ${ge%%.*} ]]
 then
-echo "F"
+f=$((f+1))
+
 fi
 
-	
 done < t.csv 
+grade=($a $b $c $d $e $f)
+gradea=(A B C D E F)
+i=0
+j=0
+while [ $j -lt 6 ]
+do
+g=${grade[j]}
 
+i=0
+
+printf ${gradea[j]}
+printf "  |"
+while [ $i -lt  $g ]
+do
+printf " *"
+
+i=$((i+1))
+done
+j=$((j+1))
+echo ""
+printf "   |"
+echo ""
+done
 
