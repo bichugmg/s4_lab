@@ -6,15 +6,25 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     LocationManager locationManager;
     Context mContext;
-
+Double lat=0.0,lan=0.0;
+    GoogleMap gmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
         mContext=this;
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapa);
+        mapFragment.getMapAsync((OnMapReadyCallback) this);
 
 
     }
@@ -32,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLocationChanged(Location location) {
             Toast.makeText(getApplicationContext(),location.getLatitude()+","+location.getLongitude() ,Toast .LENGTH_LONG).show();
+            lat=location.getLatitude();
+            lan=location.getLongitude();
+            LatLng sydney = new LatLng(lat, lan);
+                gmap.addMarker(new MarkerOptions().position(sydney)
+                    .title(""));
+            gmap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
         }
 
         @Override
@@ -48,14 +67,17 @@ public class MainActivity extends AppCompatActivity {
         public void onProviderDisabled(String provider) {
 
         }
+
+
     };
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(getApplicationContext(),"no permission" ,Toast .LENGTH_LONG).show();
+
                         return;
                     }
                     else
@@ -73,5 +95,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        gmap=googleMap;
+        LatLng sydney = new LatLng(lat, lan);
+        googleMap.addMarker(new MarkerOptions().position(sydney)
+                .title(""));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 }
