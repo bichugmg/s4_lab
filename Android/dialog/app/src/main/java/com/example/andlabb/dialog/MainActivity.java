@@ -20,11 +20,10 @@ import android.widget.TimePicker;
 public class MainActivity extends AppCompatActivity {
 
     String[] listItems;
-     TextView cResult;
-     TextView mResult;
+    Button cButton,mButton;
     String[] courseItems;
     Button b;
-    TextView dob;
+
     Button submit;
     boolean[] Selectedtruefalse = new boolean[]{
             false,
@@ -42,12 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
         listItems = getResources().getStringArray(R.array.Gender);
         courseItems =getResources().getStringArray(R.array.Course);
-        Button mButton = (Button) findViewById(R.id.button1);
-          mResult = (TextView) findViewById(R.id.tvResult);
-        Button cButton = (Button)findViewById(R.id.button2);
-          cResult = (TextView) findViewById(R.id.tcResult);
+         mButton = (Button) findViewById(R.id.button1);
+
+         cButton = (Button)findViewById(R.id.button2);
+
          b = (Button)findViewById(R.id.button3);
-        dob = (TextView) findViewById(R.id.dobResult);
+
         submit = (Button) findViewById(R.id.button4);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                     mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mResult.setText(listItems[i]);
+                        mButton.setText(listItems[i]);
                         dialogInterface.dismiss();
                     }
                 });
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         cButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cButton.setText("");
                 AlertDialog.Builder cBuilder = new AlertDialog.Builder(MainActivity.this);
 
                 cBuilder.setMultiChoiceItems(courseItems, Selectedtruefalse, new DialogInterface.OnMultiChoiceClickListener() {
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                             boolean value = Selectedtruefalse[a];
 
                             if(value){
-                                cResult.setText(cResult.getText() + courseItems[a] + "\n");
+                                cButton.setText(cButton.getText() + courseItems[a] + "\n");
                             }
 
                             a++;
@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final View dialogView = View.inflate(MainActivity.this, R.layout.datetime, null);
                 final AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
 
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                        dob.setText(datePicker.getDayOfMonth()+"-"+ datePicker.getMonth()+"-"+datePicker.getYear());
+                        b.setText(datePicker.getDayOfMonth()+"-"+ datePicker.getMonth()+"-"+datePicker.getYear());
 
                         alertDialog.dismiss();
                     }});
