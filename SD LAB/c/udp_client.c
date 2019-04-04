@@ -8,12 +8,12 @@
 int main(int argc, char const *argv[]) 
 { 
     struct sockaddr_in address; 
-    int sock = 0, valread; 
+    int sockfd = 0, valread; 
     struct sockaddr_in serv_addr; 
     char hello[] = "Hello from client"; 
     char buffer[1024] = {0}; 
 
-    sock = socket(AF_INET, SOCK_STREAM, 0);
+    sockfd = socket(AF_INET, SOCK_DGRAM, 0);
    
    
 
@@ -24,21 +24,17 @@ int main(int argc, char const *argv[])
    
    
  
-    connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-    send(sock , hello , strlen(hello) , 0 ); 
-    printf("Hello message sent\n"); 
-    valread = read( sock , buffer, 1024); 
-    printf("%s\n",buffer ); 
+  int n,len;
+sendto(sockfd, (const char *)hello, strlen(hello), 
+        MSG_CONFIRM, (const struct sockaddr *) &serv_addr,  
+            sizeof(serv_addr)); 
   while(1)
 {
-   valread = read( sock , buffer, 1024); 
-if(valread)
-    printf("%s\n",buffer ); 
-	else{
-scanf("%s",hello);
-    send(sock , hello , strlen(hello) , 0 ); 
-
-}
+   n = recvfrom(sockfd, (char *)buffer, 1024,  
+                MSG_WAITALL, (struct sockaddr *) &serv_addr, 
+                &len); 
+    buffer[n] = '\0'; 
+    printf("Server : %s\n", buffer); 
 }
    
     return 0; 
