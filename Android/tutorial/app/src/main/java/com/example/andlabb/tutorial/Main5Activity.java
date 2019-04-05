@@ -5,17 +5,20 @@ import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Main5Activity extends AppCompatActivity {
 RadioGroup rg;
 RadioButton rb;
+TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main5);
         rg=findViewById(R.id.gender);
-        
+        tv=findViewById(R.id.tv);
+
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -25,8 +28,8 @@ RadioButton rb;
                 // find the radiobutton by returned id
                 rb = (RadioButton) findViewById(selectedId);
 
-                Toast.makeText(Main5Activity.this,
-                        rb.getText(), Toast.LENGTH_SHORT).show();
+
+                tv.setText(rb.getText());
             }
         });
     }

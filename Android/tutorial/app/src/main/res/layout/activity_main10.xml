@@ -5,25 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Main5Activity">
-    <RadioGroup
-        android:id="@+id/gender"
+    tools:context=".Main9Activity">
+    <DatePicker
+        android:id="@+id/date_picker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:calendarViewShown="true"
+        android:spinnersShown="false"
+        android:layout_weight="4"
+        android:layout_height="0dp" />
 
-        <RadioButton
-            android:id="@+id/male"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Male"/>
-        <RadioButton
-            android:id="@+id/female"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Female"/>
-    </RadioGroup>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="pick"
+        android:id="@+id/b"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:textAlignment="center"
+        android:textSize="35dp"
         android:id="@+id/tv"/>
 </LinearLayout>
