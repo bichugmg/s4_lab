@@ -1,0 +1,206 @@
+
+Conversation opened. 1 unread message.
+
+Skip to content
+Using Gmail with screen readers
+6 of 8,228
+(no subject)
+Inbox
+	x
+Shibin Sidharth
+	
+Attachments00:27 (13 hours ago)
+	
+to me
+
+4 Attachments
+	
+	
+	
+
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<?php  include("header.php"); ?>
+
+<script type="text/javascript"
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5Jrp9PtHe0WapppUzxbIpMDWMAcV3qE4"></script>
+  <script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
+  <style type="text/css">
+    #map {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+	<!--header-->
+	         
+
+		<!--nav bar-->
+<?php  include("navigation.php"); ?>
+<!-- end -->
+			<!--logo-->
+		</div>
+		<!--banner-->
+   <div>
+   		 <div id="contact" class="contact">
+				<div class="container">
+				   <h3 class="tittle">Student Registration</h3>
+				   <form action="student_reg" method="post" name="myForm" onsubmit="return validate()">
+					 <div class="col-md-6 box">
+                          <!--contact-form-->
+						
+							<p class="your-para">Name :</p>
+							<input type="text" value="" name="name" id="name" required>
+							<p class="your-para">Class :</p>
+							<select style=" width: 100%;
+    padding: 0.75em 1em 0.75em 1em;
+	margin-bottom: 0.7em;
+	    border: 1px solid #ddd;" name="class">
+								<option>Select Class</option>
+						  <?php
+							foreach($class->result() as $row)
+							{
+							    ?>
+							    <option value="<?php echo $row->classID ?>"><?php echo $row->class ?></option>
+							    <?php
+							}
+							?> 
+							</select>
+							 <p class="your-para">syllabus :</p>
+							<select type="text" name="course" value="" required>
+							     <option value="0">Select syllabus</option>
+							 <option value="State syllabus">State syllabus</option>
+							 <option value="CBSE">CBSE</option>
+							 </select>
+							<p class="your-para">Address :</p>
+							<textarea cols="77" name="address" rows="5" required style=" min-height: 4em;"></textarea>
+
+                
+				        </div>
+						 <div class="col-md-6">
+						     <p class="your-para">Phone No :</p>
+							<input type="text" name="phno" value="" required>
+							<p class="your-para">Email :</p>
+							<input type="text" name="email" value="" required>
+							<p class="your-para">User Name :</p>
+							<input type="text" name="username" value="" required>
+							<p class="your-para">Password :</p>
+							<input type="Password" name="password" value="" required>
+							<p class="your-para">Confirm Password :</p>
+							<input type="Password" name="cpassword" value="" required>
+
+							<input type="hidden" name="lat" id="latLat">
+							<input type="hidden" name="long" id="latlong">
+
+                                
+
+								</div>
+							<div class="col-md-12">
+								<div id="map"></div>
+								<a id="confirmPosition" class="btn btn-info">Confirm Position</a>
+							</div>
+							<div class="col-md-6"></div>
+							<div class="col-md-6">
+								<ul class="actions" style="float: right;">
+                                	<li><input type="reset" class="style2" value="Reset" style="margin-right: 2em" /></li>
+									<li><input type="submit" name="submit" class="style1" value="Sign Up" /></li>
+				
+								</ul>	
+							</div>
+								 </form>
+							</div>
+					   <div class="clearfix"> </div>
+		           </div>
+			    </div>
+   </div>
+
+
+
+<script>
+  // Get element references
+  var confirmBtn = document.getElementById('confirmPosition');
+  var inputLat = document.getElementById('latLat');
+  var inputLong = document.getElementById('latLong');
+  var map = document.getElementById('map');
+//   var lat1,long1;
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(showPosition);
+//   } else { 
+//     //x.innerHTML = "Geolocation is not supported by this browser.";
+//   }
+//   function showPosition(position) {
+//    lat1 = position.coords.latitude;
+// long1 =  position.coords.longitude;
+//   alert(long1);
+//     }
+
+  // Initialize LocationPicker plugin
+  var lp = new locationPicker(map, {
+    setCurrentPosition: true, // You can omit this, defaults to true
+    lat: 8.548823,
+    lng: 76.917283
+  }, {
+    zoom: 15 // You can set any google map options here, zoom defaults to 15
+  });
+
+  // Listen to button onclick event
+  confirmBtn.onclick = function () {
+    // Get current location and show it in HTML
+    var location = lp.getMarkerPosition();
+    latLat.value = location.lat ;
+    latlong.value = location.lng;
+  };
+
+  // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+  google.maps.event.addListener(lp.map, 'idle', function (event) {
+    // Get current location and show it in HTML
+    var location = lp.getMarkerPosition();
+    onIdlePositionView.innerHTML = 'The chosen location is ' + location.lat + ',' + location.lng;
+  });
+</script>
+<script type="text/javascript">
+	
+function validate() {
+        if (!/^[a-zA-Z]*$/g.test(document.myForm.name.value)) {
+        alert("Please provide valid Name");
+        document.myForm.name.focus();
+        return false;
+    	}
+         if( document.myForm.phno.value == "" || isNaN( document.myForm.phno.value ) ||
+            document.myForm.phno.value.length != 10 ) {
+            alert( "Please provide valid mobile number" );
+            document.myForm.phno.focus() ;
+            return false;
+         }
+         if (/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/.test(document.myForm.email.value)  == false) {
+        alert("Please provide valid Email");
+        document.myForm.email.focus();
+        return false;
+    	}
+    	 if(document.myForm.password.value.length <= 8 ) {
+            alert( "password must be 8 characters long" );
+            document.myForm.password.focus() ;
+            return false;
+         }
+         if(document.myForm.password.value != document.myForm.cpassword.value ) {
+            alert( "password no matching" );
+            document.myForm.cpassword.focus() ;
+            return false;
+         }
+         return( true );
+      }
+</script>
+
+</body>
+</html>
+
+student_reg.php
+Displaying student_reg.php.
