@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Main8Activity">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/abc"
+        tools:context=".MainActivity">
+
+        <!--Make sure to save two images home and youtube in drawable folder-->
+
+        <ImageButton
+            android:id="@+id/simpleImageButtonHome"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/utube"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/home" />
+
+        <ImageButton
+            android:id="@+id/simpleImageButtonYouTube"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/simpleImageButtonHome"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="#005"
+            android:padding="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/utube" />
+
+    </RelativeLayout>
