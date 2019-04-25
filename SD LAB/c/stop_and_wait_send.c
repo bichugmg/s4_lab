@@ -1,64 +1,82 @@
-#include <unistd.h> 
-#include <stdio.h> 
-#include <sys/socket.h> 
-#include <stdlib.h> 
-#include <netinet/in.h> 
-#include <string.h> 
-#define PORT 8030
-int main(int argc, char const *argv[]) 
-{ 
-    int server_fd, new_socket, valread; 
-    struct sockaddr_in address; 
-    int opt = 1,i=0; 
-    int addrlen = sizeof(address); 
-    char buffer[1024] = "0"; 
-    char hello[20] = "Hello from server"; 
-       
-    server_fd = socket(AF_INET, SOCK_STREAM, 0);
-
-   
-    address.sin_family = AF_INET; 
-    address.sin_addr.s_addr = INADDR_ANY; 
-    address.sin_port = htons( PORT ); 
-    bind(server_fd, (struct sockaddr *)&address,  sizeof(address)); 
-
-    
-
-   
-
-listen(server_fd, 3);
-if ((new_socket = accept(server_fd, (struct sockaddr *)&address,  
-                       (socklen_t*)&addrlen))<0) 
-    { 
-        perror("accept"); 
-        exit(EXIT_FAILURE); 
-    } 
-else
-printf("connect");
-    valread = read( new_socket , buffer, 1024); 
-    printf("%s\n",buffer ); 
-while(1)
+#include<stdio.h>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<netinet/in.h>
+#include <unistd.h>
+#include<string.h>
+#include<stdlib.h>
+#include<arpa/inet.h>
+int main()
 {
-	 if(strcmp(buffer,"0")==0)
-	{
-		++i;
-		printf("Enter frame %d : ",i);
-		scanf("%s",hello);
-	    	send(new_socket , hello , strlen(hello) , 0 ); 
-		sprintf(buffer,"0");
-	}
-	else
-	{
-		read( new_socket , buffer, 1024); 
-		 if(strcmp(buffer,"1")==0)
-		printf("error");
-	}
-	
-	 
-	
+        int sfd,lfd,len,i,j,status,x;
+        char str[20],frame[20],temp[20],ack[20];
+        struct sockaddr_in saddr,caddr;
+x=1;
 
+        sfd=socket(AF_INET,SOCK_STREAM,0);
+        if(sfd<0)
+                perror("Error");
+                bzero(&saddr,sizeof(saddr));
+                saddr.sin_family=AF_INET;
+                saddr.sin_addr.s_addr=htonl(INADDR_ANY);
+                saddr.sin_port=htons(4455); 
+
+                if(bind(sfd,(struct sockaddr*)&saddr,sizeof(saddr))<0)
+                        perror("Bind Error");
+                listen(sfd,5);
+                len=sizeof(&caddr);
+                lfd=accept(sfd,(struct sockaddr*)&caddr,&len);
+                printf(" Enter the text : \n");
+                scanf("%s",str);
+                i=0;
+                while(i<strlen(str))
+                {
+                        memset(frame,0,20);
+                        strncpy(frame,str+i,x);
+                        printf(" Transmitting Frames. ");
+                        len=strlen(frame);
+                        for(j=0;j<len;j++)
+                        {
+                                printf("%d",i+j);
+                                sprintf(temp,"%d",i+j);
+                                strcat(frame,temp);
+                        }
+                        printf("\n");
+                        write(lfd,frame,sizeof(frame));
+                        read(lfd,ack,20);
+                        sscanf(ack,"%d",&status);
+
+                        if(status==-1)
+                                printf(" Transmission is successful. \n");
+                        else
+                        {
+                                printf(" Received error in %d \n\n",status);
+                                printf("\n\n Retransmitting Frame. ");
+                                for(j=0;;)
+                                {
+                                        frame[j]=str[j+status];
+                                        printf("%d",j+status);
+                                        j++;
+                                    if((j+status)%x==0)
+                                                break;
+                                }
+                                printf("\n");
+                                frame[j]='\0';
+                                len=strlen(frame);
+                                for(j=0;j<len;j++)
+                                {
+                                        sprintf(temp,"%d",j+status);
+                                        strcat(frame,temp);
+                                }
+                                write(lfd,frame,sizeof(frame));
+                        }
+                        i+=x;
+                }
+                write(lfd,"exit",sizeof("exit"));
+                printf("Exiting\n");
+                sleep(2);
+                close(lfd);
+                close(sfd);
 }
-    
-    
-    return 0; 
-} 
+
+
