@@ -1,57 +1,43 @@
-#include<sys/socket.h>
-#include<sys/types.h>
-#include<netinet/in.h>
-#include<netdb.h>
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
-#include<unistd.h>
-#include<errno.h>
+#include <unistd.h>
+#include<sys/socket.h>
+#include<sys/types.h>
+#include<netinet/in.h>
 int main()
 {
-int sock,bytes_received,i=1;
-char receive[30];
-struct hostent *host;
-struct sockaddr_in server_addr;
-host=gethostbyname("127.0.0.1");
-if((sock=socket(AF_INET,SOCK_STREAM,0))==-1)
-{
-perror("Socket not created");
-exit(1);
+        int sfd,lfd,len,choice;
+        char str[20],str1[20],err[20];
+        struct sockaddr_in saddr,caddr;
+        sfd=socket(AF_INET,SOCK_STREAM,0);
+        if(sfd<0)
+                perror("FdError");
+        bzero(&saddr,sizeof(saddr));
+        saddr.sin_family=AF_INET;
+        saddr.sin_addr.s_addr=INADDR_ANY;
+        saddr.sin_port=htons(5566);
+        connect(sfd,(struct sockaddr*)&saddr,sizeof(saddr));
+        for(;;)
+        {
+                read(sfd,str,20);
+                if(!strcmp(str,"exit"))
+                {
+                        printf("Exiting\n");
+                        break;
+                }
+                printf("\n\nReceived :  %s \n\n 1.Do u want to report an error(1-Yes 0-No)",str);
+                scanf("%d",&choice);
+                if(!choice)
+                        write(sfd,"-1",sizeof("-1"));
+                else
+                {
+                        printf("Enter the sequence no of the frame where error has occured\n");
+                        scanf("%s",err);
+                        write(sfd,err,sizeof(err));
+                        read(sfd,str,20);
+                        printf("\n\nReceived the re-transmitted frames%s\n\n",str);
+                }
+        }
 }
-printf("Socket created");
-server_addr.sin_family=AF_INET;
-server_addr.sin_port=htons(17000);
-server_addr.sin_addr=*((struct in_addr *)host->h_addr);
-bzero(&(server_addr.sin_zero),8);
-if(connect(sock,(struct sockaddr *)&server_addr,sizeof(struct sockaddr))==-1)
-{
-perror("Connect");
-exit(1);
-}
-while(1)
-{
-bytes_received=recv(sock,receive,20,0);
-receive[bytes_received]='\0';
-if(strcmp(receive,"exit")==0||strcmp(receive,"exit")==0)
-{
-close(sock);
-break;
-}
-else
-{
-if(strlen(receive)<10)
-{
-printf("\n Frame %d data %s received\n",i,receive);
-send(sock,receive,strlen(receive),0);
-}
-else
-{
-send(sock,"negative",10,0);
-}
-i++;
-}
-}
-close(sock);
-return(0);
-}
+
