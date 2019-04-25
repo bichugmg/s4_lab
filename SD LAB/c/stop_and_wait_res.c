@@ -7,7 +7,7 @@
 #include<netinet/in.h>
 int main()
 {
-        int sfd,lfd,len,choice;
+        int sfd,lfd,len,choice,i=-0;
         char str[20],str1[20],err[20];
         struct sockaddr_in saddr,caddr;
         sfd=socket(AF_INET,SOCK_STREAM,0);
@@ -16,7 +16,7 @@ int main()
         bzero(&saddr,sizeof(saddr));
         saddr.sin_family=AF_INET;
         saddr.sin_addr.s_addr=INADDR_ANY;
-        saddr.sin_port=htons(5566);
+        saddr.sin_port=htons(4455);
         connect(sfd,(struct sockaddr*)&saddr,sizeof(saddr));
         for(;;)
         {
@@ -32,12 +32,15 @@ int main()
                         write(sfd,"-1",sizeof("-1"));
                 else
                 {
-                        printf("Enter the sequence no of the frame where error has occured\n");
-                        scanf("%s",err);
+                       
+                       // scanf("%s",err);
+			err[0]=str[1];
+printf("%s",err);
                         write(sfd,err,sizeof(err));
                         read(sfd,str,20);
                         printf("\n\nReceived the re-transmitted frames%s\n\n",str);
                 }
+
         }
 }
 

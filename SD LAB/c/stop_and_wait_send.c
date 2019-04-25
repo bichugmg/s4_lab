@@ -11,8 +11,7 @@ int main()
         int sfd,lfd,len,i,j,status,x;
         char str[20],frame[20],temp[20],ack[20];
         struct sockaddr_in saddr,caddr;
-printf("enter frame size  : ");
-scanf("%d",&x);
+x=1;
 
         sfd=socket(AF_INET,SOCK_STREAM,0);
         if(sfd<0)
@@ -20,7 +19,7 @@ scanf("%d",&x);
                 bzero(&saddr,sizeof(saddr));
                 saddr.sin_family=AF_INET;
                 saddr.sin_addr.s_addr=htonl(INADDR_ANY);
-                saddr.sin_port=htons(5566); 
+                saddr.sin_port=htons(4455); 
 
                 if(bind(sfd,(struct sockaddr*)&saddr,sizeof(saddr))<0)
                         perror("Bind Error");
